@@ -1,5 +1,1 @@
-freeze/ unfreeze ongoing loans not required
-loan history
-flash not working in code
-UPDATE USER MODEL
-data
+This project must be updated with Twilio credentials in order to trigger phone call... But remaining part of the project with ML model prediction and rest of the functionalities are working.. 
