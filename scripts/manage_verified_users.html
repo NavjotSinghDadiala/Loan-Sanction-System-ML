@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYC Verified Users | Global Trust Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy-blue: #000080;
+            --light-blue: #E2E8F0;
+            --dark-gray: #1E293B;
+        }
+        
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+        
+        .sidebar {
+            background: linear-gradient(to bottom, var(--navy-blue), #00005A);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .bank-logo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .bank-logo .ashoka-chakra {
+            color: var(--navy-blue);
+            font-size: 24px;
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid var(--saffron);
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+        
+        .navbar {
+            background-color: var(--navy-blue);
+            padding: 12px 20px;
+            color: white;
+        }
+        
+        .kyc-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            border-left: 4px solid var(--green);
+        }
+        
+        .kyc-card-header {
+            background: linear-gradient(to right, var(--navy-blue), var(--green));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .form-section {
+            background-color: rgba(0, 123, 255, 0.03);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 3px solid var(--navy-blue);
+        }
+        
+        .form-section h5 {
+            color: var(--navy-blue);
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #444;
+        }
+        
+        .form-control {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .verified-users-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .verified-users-table thead {
+            background: var(--navy-blue);
+            color: white;
+        }
+        
+        .verified-users-table th {
+            padding: 15px;
+            font-weight: 500;
+        }
+        
+        .verified-users-table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        
+        .document-badge {
+            background-color: rgba(0, 123, 255, 0.08);
+            color: #007BFF;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+        }
+        
+        .back-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            background-color: var(--navy-blue);
+            color: white;
+        }
+        
+        .rupee-icon:before {
+            content: "₹";
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            .card-body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="bank-logo">
+                <div class="ashoka-chakra">✸</div>
+            </div>
+            <h5 class="mb-0" style="color: white;">Global Trust Bank</h5>
+            <small style="color: rgba(255, 255, 255, 0.7);">Admin Dashboard</small>
+        </div>
+        <div class="sidebar-menu">
+            <a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="{{ url_for('manage_users') }}"><i class="fas fa-users me-2"></i>Customer Management</a>
+            <a href="{{ url_for('manage_loans') }}"><i class="fas fa-hand-holding-usd me-2"></i>Loan Applications</a>
+            <a href="{{ url_for('manage_verified_users') }}" class="active"><i class="fas fa-user-shield me-2"></i>KYC Verified (MINI RBI)</a> 
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg mb-4">
+            <div class="container-fluid">
+                <button class="btn btn-sm d-lg-none" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="d-flex align-items-center ms-auto">
+                    <i class="fas fa-bell me-3"></i>
+                    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-light">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="mb-1"><i class="fas fa-user-shield me-2"></i>KYC Verified Users (MINI RBI)</h3>
+                    <p class="text-muted mb-0">Manage all verified customer profiles and documents</p>
+                </div>
+            </div>
+            
+            <!-- Add/Update Form -->
+            <div class="kyc-card">
+                <div class="kyc-card-header">
+                    <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Add/Update Verified User</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('manage_verified_users') }}" method="POST" enctype="multipart/form-data">
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h5><i class="fas fa-id-card me-2"></i>Basic Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Employment Status</label>
+                                    <select class="form-control" name="employment_status" required>
+                                        <option value="Employed">Employed</option>
+                                        <option value="Self-Employed">Self-Employed</option>
+                                        <option value="Unemployed">Unemployed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Financial Information -->
+                        <div class="form-section">
+                            <h5><i class="fas fa-chart-line me-2"></i>Financial Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Verified Annual Income</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text rupee-icon"></span>
+                                        <input type="number" step="0.01" class="form-control" name="income" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Verified Credit Score</label>
+                                    <input type="number" class="form-control" name="credit_score" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Document Verification -->
+                        <div class="form-section">
+                            <h5><i class="fas fa-file-contract me-2"></i>Document Verification</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Aadhaar Number</label>
+                                    <input type="text" class="form-control" name="aadhar_number" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Aadhaar File</label>
+                                    <input type="file" class="form-control" name="aadhaar_file" accept=".pdf,.jpg,.png">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">PAN Number</label>
+                                    <input type="text" class="form-control" name="pan_number">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">PAN File</label>
+                                    <input type="file" class="form-control" name="pan_file" accept=".pdf,.jpg,.png">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label">Income Certificate</label>
+                                <input type="file" class="form-control" name="income_certificate_file" accept=".pdf,.jpg,.png">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary px-4 py-2 mt-2">
+                            <i class="fas fa-save me-2"></i>Save User
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="form-section">
+                <h5><i class="fas fa-check-circle me-2"></i>Loan Approved Status</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Loan Approved Elsewhere?</label>
+                        <select class="form-control" name="loan_approved_elsewhere" required>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Verified Users Table -->
+            <div class="kyc-card">
+                <div class="kyc-card-header">
+                    <h5 class="mb-0"><i class="fas fa-list-check me-2"></i>Verified Users List</h5>
+                </div>
+                <div class="card-body">
+                    <div class="verified-users-table">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Income</th>
+                                        <th>Credit Score</th>
+                                        <th>Employment</th>
+                                        <th>Status</th>
+                                        <th>Loan Status</th>
+                                        <th>Bank Count</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in verified_users %}
+                                    <tr>
+                                        <td>{{ user.email }}</td>
+                                        <td><span class="rupee-icon"></span>{{ user.correct_income }}</td>
+                                        <td>{{ user.correct_credit_score }}</td>
+                                        <td>{{ user.employment_status }}</td>
+                                        <td>
+                                            <span class="badge {% if user.status %}bg-success{% else %}bg-danger{% endif %}">
+                                                {{ "Approved" if user.status else "Rejected" }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge {% if user.loan_status_in_other_bank == 'Approved' %}bg-success
+                                                              {% elif user.loan_status_in_other_bank == 'Rejected' %}bg-danger
+                                                              {% else %}bg-warning{% endif %}">
+                                                {{ user.loan_status_in_other_bank or 'Pending' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge {% if user.bank_count > 1 %}bg-info
+                                                              {% else %}bg-secondary{% endif %}">
+                                                {{ user.bank_count }} Bank{{ 's' if user.bank_count > 1 else '' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <form action="{{ url_for('update_loan_status', id=user.id) }}" method="POST">
+                                                <select class="form-control form-control-sm" name="loan_status">
+                                                    <option value="Pending" {% if user.loan_status_in_other_bank == 'Pending' %}selected{% endif %}>Pending</option>
+                                                    <option value="Approved" {% if user.loan_status_in_other_bank == 'Approved' %}selected{% endif %}>Approved</option>
+                                                    <option value="Rejected" {% if user.loan_status_in_other_bank == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary btn-sm mt-1">Update</button>
+                                            </form>                                            
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('delete_verified_user', id=user.id) }}" 
+                                               class="btn btn-danger btn-sm action-btn"
+                                               onclick="return confirm('Are you sure you want to remove this verified user?');">
+                                                <i class="fas fa-trash-alt"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn back-btn">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // File input labels
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const label = this.previousElementSibling;
+                if (this.files.length > 0) {
+                    label.innerHTML = `${label.textContent} <span class="badge bg-primary ms-2">${this.files[0].name}</span>`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

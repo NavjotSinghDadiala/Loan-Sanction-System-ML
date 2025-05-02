@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Global Trust Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy-blue: #000080;
+            --light-blue: #E2E8F0;
+            --dark-gray: #1E293B;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+        
+        .sidebar {
+            background: linear-gradient(to bottom, var(--navy-blue), #00005A);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--white);
+            margin: 0 auto 15px;
+            display: block;
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid var(--saffron);
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+        
+        .navbar {
+            background-color: var(--navy-blue);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            border-bottom: 1px solid #E2E8F0;
+            color: white;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            border-left: 4px solid var(--saffron);
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, var(--navy-blue), var(--green));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px 10px 0 0;
+            font-weight: 500;
+        }
+        
+        .account-summary {
+            background: linear-gradient(135deg, var(--navy-blue), #001a4d);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .account-number {
+            font-family: monospace;
+            letter-spacing: 2px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .quick-action-btn {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .quick-action-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .transaction-card {
+            border-left: 4px solid var(--green);
+        }
+        
+        .loan-card {
+            border-left: 4px solid var(--saffron);
+        }
+        
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        
+        .badge-approved {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .badge-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .badge-rejected {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        .indian-flag-colors {
+            background: linear-gradient(to right, var(--saffron), var(--white), var(--green));
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .sidebar.active {
+                margin-left: 0;
+            }
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+            border-left: 2px solid var(--saffron);
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-date {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--saffron);
+        }
+
+        .history-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .history-card .card-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .history-card .card-body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://ui-avatars.com/api/?name={{ user.name|urlencode }}&background=random" class="user-avatar" alt="User Avatar">
+            <h5>{{ user.name }}</h5>
+            <small>Customer since {{ user.created_at.strftime('%b %Y') }}</small>
+            <div class="indian-flag-colors mt-2"></div>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="#"><i class="fas fa-rupee-sign"></i> Accounts</a>
+            <a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a>
+            <a href="{{ url_for('apply_loan') }}"><i class="fas fa-hand-holding-usd"></i> Loans</a>
+            <a href="#"><i class="fas fa-credit-card"></i> Cards</a>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg mb-4">
+            <div class="container-fluid">
+                <button class="btn btn-sm d-lg-none" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="d-flex align-items-center ms-auto">
+                    <i class="fas fa-bell me-3"></i>
+                    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-light">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show mb-4" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Account Summary -->
+        <div class="account-summary">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5><i class="fas fa-university me-2"></i> Savings Account</h5>
+                    <div class="account-number">XXXX-XXXX-{{ user.id }}</div>
+                </div>
+                <div class="text-end">
+                    <small>Available Balance</small>
+                    <div class="balance-amount">₹12,45,789</div>
+                    <small>as of today</small>  <!-- Changed from dynamic date to static text -->
+                </div>
+            </div>
+            <div class="quick-actions">
+                <a href="#" class="quick-action-btn">
+                    <i class="fas fa-rupee-sign me-1"></i> Transfer
+                </a>
+                <a href="#" class="quick-action-btn">
+                    <i class="fas fa-download me-1"></i> Deposit
+                </a>
+                <a href="#" class="quick-action-btn">
+                    <i class="fas fa-upload me-1"></i> Pay
+                </a>
+                <a href="#" class="quick-action-btn">
+                    <i class="fas fa-exchange-alt me-1"></i> Request
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="dashboard-card transaction-card">
+            <div class="card-header">
+                <i class="fas fa-exchange-alt me-2"></i> Recent Transactions
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Today</td>
+                                <td>UPI Payment to Amazon</td>
+                                <td class="text-danger">-₹1,499.00</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Yesterday</td>
+                                <td>Salary Credit</td>
+                                <td class="text-success">+₹85,000.00</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>15 Jun</td>
+                                <td>ATM Withdrawal</td>
+                                <td class="text-danger">-₹10,000.00</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end mt-3">
+                    <a href="#" class="btn btn-sm btn-outline-primary">View All Transactions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loan Application Status -->
+        <div class="dashboard-card loan-card">
+            <div class="card-header">
+                <i class="fas fa-hand-holding-usd me-2"></i> Loan Application Status
+            </div>
+            <div class="card-body">
+                {% if loan_application %}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="mb-1">Personal Loan Application</h5>
+                            <small class="text-muted">Applied on {{ loan_application.created_at.strftime('%d %b %Y') }}</small>
+                        </div>
+                        <span class="badge-status 
+                            {% if loan_application.prediction == 'Approved' %}badge-approved
+                            {% elif loan_application.prediction == 'Rejected' %}badge-rejected
+                            {% else %}badge-pending{% endif %}">
+                            {{ loan_application.prediction }}
+                        </span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-rupee-sign me-2"></i>Loan Amount:</strong> ₹{{ loan_application.loan_amount }}</p>
+                            <p><strong><i class="fas fa-percentage me-2"></i>Interest Rate:</strong> 10.75% p.a.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-briefcase me-2"></i>Employment:</strong> {{ loan_application.employment_status }}</p>
+                            <p><strong><i class="fas fa-credit-card me-2"></i>Credit Score:</strong> {{ loan_application.credit_score }}</p>
+                        </div>
+                    </div>
+                    
+                    {% if loan_application.prediction == "Pending" %}
+                        <div class="alert alert-warning mt-3">
+                            <i class="fas fa-info-circle me-2"></i> Your application is under review. Typically takes 3-5 working days.
+                        </div>
+                    {% elif loan_application.prediction == "Approved" %}
+                        <div class="alert alert-success mt-3">
+                            <i class="fas fa-check-circle me-2"></i> 🎉 <strong>APPROVED:</strong> Your loan has been approved! Funds will be disbursed within 24 hours.
+                        </div>
+                        <a href="#" class="btn btn-success me-2"><i class="fas fa-file-contract me-1"></i> View Sanction Letter</a>
+                    {% elif loan_application.prediction == "Rejected" %}
+                        <div class="alert alert-danger mt-3">
+                            <i class="fas fa-times-circle me-2"></i> ❌ <strong>REJECTED:</strong> Your application wasn't approved.
+                        </div>
+            
+                        <!-- Show Rejection Reason -->
+                        {% if loan_application.rejection_reason %}
+                            <div class="alert alert-warning mt-3">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <strong>Reason:</strong> {{ loan_application.rejection_reason }}
+                            </div>
+                        {% endif %}
+            
+                        <!-- Show Suggestions -->
+                        {% if loan_application.rejection_suggestion %}
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-lightbulb me-2"></i> 
+                                <strong>Suggestion:</strong> {{ loan_application.rejection_suggestion }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Show System Decision -->
+                        {% if loan_application.suggestion %}
+                            <div class="alert alert-secondary mt-3">
+                                <i class="fas fa-robot me-2"></i>
+                                <strong>System Decision:</strong> {{ loan_application.suggestion }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-hand-holding-usd fa-3x text-muted mb-3"></i>
+                        <h5>No Active Loan Applications</h5>
+                        <p class="text-muted">You haven't applied for any loans yet</p>
+                    </div>
+                {% endif %}
+
+                <!-- Always show Apply Loan button -->
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('apply_loan') }}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-1"></i> Apply for New Loan
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loan Application History -->
+        <div class="dashboard-card history-card mt-4">
+            <div class="card-header">
+                <i class="fas fa-history me-2"></i> Loan Application History
+            </div>
+            <div class="card-body">
+                {% if loan_applications %}
+                    <div class="timeline">
+                        {% for application in loan_applications|sort(attribute='created_at', reverse=true) %}
+                            <div class="timeline-item">
+                                <div class="timeline-date">
+                                    {{ application.created_at.strftime('%d %b %Y %H:%M') }}
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge-status 
+                                            {% if application.prediction == 'Approved' %}badge-approved
+                                            {% elif application.prediction == 'Rejected' %}badge-rejected
+                                            {% else %}badge-pending{% endif %}">
+                                            {{ application.prediction }}
+                                        </span>
+                                        <small class="text-muted">Amount: ₹{{ application.loan_amount }}</small>
+                                    </div>
+                                    
+                                    {% if application.prediction == "Rejected" %}
+                                        <div class="alert alert-danger mt-2 mb-0">
+                                            <i class="fas fa-times-circle me-2"></i>
+                                            {{ application.rejection_reason }}
+                                        </div>
+                                    {% elif application.prediction == "Approved" %}
+                                        <div class="alert alert-success mt-2 mb-0">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            Loan approved successfully!
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-warning mt-2 mb-0">
+                                            <i class="fas fa-clock me-2"></i>
+                                            Application under review
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                        <h5>No Application History</h5>
+                        <p class="text-muted">You haven't applied for any loans yet</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="row mt-4">
+            <div class="col-md-4 mb-3">
+                <div class="dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-mobile-alt fa-2x mb-3 text-primary"></i>
+                        <h5>Mobile Banking</h5>
+                        <p class="text-muted">Download our app for seamless banking</p>
+                        <button class="btn btn-outline-primary btn-sm">Download Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-credit-card fa-2x mb-3 text-success"></i>
+                        <h5>Credit Card</h5>
+                        <p class="text-muted">Apply for our premium credit cards</p>
+                        <button class="btn btn-outline-success btn-sm">Apply Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-headset fa-2x mb-3 text-warning"></i>
+                        <h5>Customer Support</h5>
+                        <p class="text-muted">24/7 assistance for all your queries</p>
+                        <button class="btn btn-outline-warning btn-sm">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

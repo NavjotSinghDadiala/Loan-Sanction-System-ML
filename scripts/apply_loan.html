@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Loan | Global Trust Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --secondary-blue: #0066cc;
+            --accent-gold: #FFD700;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .loan-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loan-form-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        
+        .form-control, .form-select {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 0.25rem rgba(0, 102, 204, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-blue);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        
+        .file-upload-box {
+            border: 2px dashed #ced4da;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-box:hover {
+            border-color: var(--secondary-blue);
+            background-color: rgba(0, 102, 204, 0.05);
+        }
+        
+        .file-upload-icon {
+            font-size: 2rem;
+            color: var(--secondary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e9ecef;
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 30%;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--secondary-blue);
+            color: white;
+        }
+        
+        .step-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .step.active .step-text {
+            color: var(--secondary-blue);
+            font-weight: 600;
+        }
+        
+        .info-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .loan-form-container {
+                padding: 1.5rem;
+            }
+            
+            .progress-steps {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .step {
+                text-align: left;
+                width: 100%;
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+            }
+            
+            .step-number {
+                margin: 0 1rem 0 0;
+            }
+            
+            .progress-steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loan-header">
+        <div class="container text-center">
+            <h1><i class="fas fa-hand-holding-usd me-2"></i> Loan Application</h1>
+            <p class="lead">Complete your application in just a few steps</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-text">Personal Details</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Document Upload</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Review & Submit</div>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="loan-form-container">
+            <div class="info-card">
+                <h5><i class="fas fa-info-circle text-primary me-2"></i> Important Information</h5>
+                <p class="mb-0">Please fill all fields accurately. Incomplete or incorrect information may delay your loan processing.</p>
+            </div>
+
+            <form action="{{ url_for('apply_loan') }}" method="POST" enctype="multipart/form-data">
+                <h4 class="mb-4"><i class="fas fa-user-circle me-2"></i> Personal Information</h4>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="income" class="form-label">Monthly Income (₹)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-rupee-sign"></i></span>
+                            <input type="number" step="0.01" class="form-control" id="income" name="income" placeholder="Enter your monthly income" required>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="credit_score" class="form-label">Credit Score</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                            <input type="number" class="form-control" id="credit_score" name="credit_score" placeholder="Enter your credit score" min="300" max="900" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="loan_amount" class="form-label">Loan Amount (₹)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                            <input type="number" step="0.01" class="form-control" id="loan_amount" name="loan_amount" placeholder="Enter desired loan amount" required>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="employment_status" class="form-label">Employment Status</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                            <select class="form-select" id="employment_status" name="employment_status" required>
+                                <option value="" selected disabled>Select employment status</option>
+                                <option value="Employed">Employed</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                                <option value="Unemployed">Unemployed</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone_number" name="phone_number" 
+                           pattern="[0-9]{10}" required placeholder="Enter 10-digit mobile number">
+                    <div class="form-text">We'll use this number to contact you regarding your loan application.</div>
+                </div>
+
+                <h4 class="mb-4 mt-5"><i class="fas fa-file-alt me-2"></i> Document Verification</h4>
+                
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="aadhaar_number" class="form-label">Aadhaar Card Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                <input type="number" class="form-control" id="aadhaar_number" name="aadhaar_number" placeholder="Enter Aadhaar number" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="aadhaar_file" class="form-label">Upload Aadhaar Card</label>
+                        <div class="file-upload-box" onclick="document.getElementById('aadhaar_file').click()">
+                            <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <p class="mb-1">Click to upload Aadhaar Card</p>
+                            <small class="text-muted">Supports JPG, PNG or PDF (Max 5MB)</small>
+                            <input type="file" class="d-none" id="aadhaar_file" name="aadhaar_file" accept="image/*,.pdf" required>
+                        </div>
+                        <div id="aadhaarFileName" class="small text-muted mt-1"></div>
+                    </div>
+                </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="pan_number" class="form-label">PAN Card Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                <input type="number" class="form-control" id="pan_number" name="pan_number" placeholder="Enter PAN number" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="pan_file" class="form-label">Upload PAN Card</label>
+                        <div class="file-upload-box" onclick="document.getElementById('pan_file').click()">
+                            <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <p class="mb-1">Click to upload PAN Card</p>
+                            <small class="text-muted">Supports JPG, PNG or PDF (Max 5MB)</small>
+                            <input type="file" class="d-none" id="pan_file" name="pan_file" accept="image/*,.pdf" required>
+                        </div>
+                        <div id="panFileName" class="small text-muted mt-1"></div>
+                    </div>
+                </div>
+
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="income_certificate_file" class="form-label">Upload Income Certificate</label>
+                        <div class="file-upload-box" onclick="document.getElementById('income_certificate_file').click()">
+                            <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <p class="mb-1">Click to upload Income Certificate</p>
+                            <small class="text-muted">Supports JPG, PNG or PDF (Max 5MB)</small>
+                            <input type="file" class="d-none" id="income_certificate_file" name="income_certificate_file" accept="image/*,.pdf" required>
+                        </div>
+                        <div id="incomeCertFileName" class="small text-muted mt-1"></div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-5">
+                    <a href="{{ url_for('user_dashboard') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i> Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show selected file names
+        document.getElementById('aadhaar_file').addEventListener('change', function(e) {
+            document.getElementById('aadhaarFileName').textContent = 'Selected: ' + e.target.files[0].name;
+        });
+        
+        document.getElementById('pan_file').addEventListener('change', function(e) {
+            document.getElementById('panFileName').textContent = 'Selected: ' + e.target.files[0].name;
+        });
+        
+        document.getElementById('income_certificate_file').addEventListener('change', function(e) {
+            document.getElementById('incomeCertFileName').textContent = 'Selected: ' + e.target.files[0].name;
+        });
+
+        // Validate PAN number format
+        document.getElementById('pan_number').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+
+        // Validate Aadhaar number
+        document.getElementById('aadhaar_number').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').substring(0, 12);
+        });
+    </script>
+</body>
+</html>

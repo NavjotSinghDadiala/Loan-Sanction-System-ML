@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login | Global Trust Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy-blue: #000080;
+            --light-blue: #E2E8F0;
+            --dark-gray: #1E293B;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            min-height: 100vh;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+        
+        .bank-logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        .bank-logo {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--navy-blue);
+        }
+        
+        .bank-logo .ashoka-chakra {
+            color: var(--navy-blue);
+            font-size: 36px;
+        }
+        
+        .bank-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy-blue);
+            margin-bottom: 5px;
+        }
+        
+        .bank-tagline {
+            font-size: 1rem;
+            color: var(--navy-blue);
+            opacity: 0.8;
+        }
+        
+        .auth-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            border-left: 4px solid var(--saffron);
+        }
+        
+        .auth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, var(--navy-blue), #00005A);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--saffron);
+        }
+        
+        .card-header h3 {
+            font-weight: 600;
+            margin: 0;
+            color: white;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--navy-blue);
+            box-shadow: 0 0 0 0.25rem rgba(0, 0, 128, 0.1);
+        }
+        
+        .btn-login {
+            background-color: var(--navy-blue);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .btn-login:hover {
+            background-color: #00005A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--navy-blue);
+            border-color: var(--navy-blue);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--navy-blue);
+        }
+        
+        .security-info {
+            background-color: rgba(0, 0, 128, 0.05);
+            border-left: 3px solid var(--saffron);
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+        }
+        
+        .security-info i {
+            color: var(--saffron);
+            margin-right: 8px;
+        }
+        
+        .footer-links {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--navy-blue);
+        }
+        
+        .footer-links a {
+            color: var(--navy-blue);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            color: var(--saffron);
+            text-decoration: underline;
+        }
+        
+        .indian-flag-colors {
+            background: linear-gradient(to right, var(--saffron), var(--white), var(--green));
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 15px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1.5rem;
+            }
+            .bank-name {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="bank-logo-container">
+                    <div class="bank-logo">
+                        <div class="ashoka-chakra">✸</div>
+                    </div>
+                    <div class="bank-name">Global Trust Bank</div>
+                    <div class="bank-tagline">Secure Banking Worldwide</div>
+                    <div class="indian-flag-colors"></div>
+                </div>
+                
+                <div class="auth-card card shadow-lg">
+                    <div class="card-header text-center">
+                        <h3><i class="fas fa-lock me-2"></i>Secure Online Banking</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/login" id="loginForm">
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-medium">Online Banking ID</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your banking ID" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-medium">Password</label>
+                                <div class="password-container">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" id="togglePassword">
+                                            <i class="far fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4 d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember">
+                                    <label class="form-check-label" for="remember">Remember this device</label>
+                                </div>
+                                <a href="/forgot-password" class="text-decoration-none small">Forgot Password?</a>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-login w-100 mb-4">
+                                <span class="submit-text">Sign In</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                            
+                            <div class="security-info d-flex align-items-start">
+                                <i class="fas fa-shield-alt mt-1"></i>
+                                <div>
+                                    <strong>Security Tip:</strong> Always check for 'https://' and the padlock icon in your browser's address bar before logging in.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="mb-2">New to Online Banking? <a href="/register" class="fw-medium text-decoration-none">Enroll Now</a></p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="#" class="text-decoration-none"><i class="fab fa-apple me-1"></i> App Store</a>
+                        <a href="#" class="text-decoration-none"><i class="fab fa-google-play me-1"></i> Google Play</a>
+                    </div>
+                </div>
+                
+                <div class="footer-links mt-4">
+                    <a href="#">Privacy</a>
+                    <a href="#">Security</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Help</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+        
+        // Form submission animation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const submitText = submitBtn.querySelector('.submit-text');
+            const spinner = submitBtn.querySelector('.spinner-border');
+            
+            submitText.classList.add('d-none');
+            spinner.classList.remove('d-none');
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitText.classList.remove('d-none');
+                spinner.classList.add('d-none');
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

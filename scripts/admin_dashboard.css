@@ -1,0 +1,53 @@
+body {
+    background: linear-gradient(135deg, #d3d3d3 0%, #ffffff 100%); /* Professional gradient background */
+    animation: backgroundAnimation 10s infinite alternate; /* Add animation for live background */
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background-color: #d3d3d3; /* Start color */
+    }
+    100% {
+        background-color: #e0e0e0; /* End color for animation */
+    }
+}
+
+h2 {
+    color: #000000; /* Change heading text color to black */
+    text-shadow: none; /* Remove shadow for a cleaner look */
+}
+
+h2 {
+    color: #000000; /* Change heading text color to black */
+    text-shadow: none; /* Remove shadow for a cleaner look */
+
+    text-shadow: none; /* Remove shadow for a cleaner look */
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for better visibility */
+
+    font-family: 'Arial', sans-serif; /* Change font family */
+}
+
+.btn {
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Add box-shadow transition */
+
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Restore original blue on hover for primary buttons */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green on hover for success buttons */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+
+}
+
+.col-md-4 {
+    margin-bottom: 20px; /* Add spacing between buttons */
+}

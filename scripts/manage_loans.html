@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Loan Applications | Global Trust Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy-blue: #000080;
+            --light-blue: #E2E8F0;
+            --dark-gray: #1E293B;
+        }
+        
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+        
+        .sidebar {
+            background: linear-gradient(to bottom, var(--navy-blue), #00005A);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .bank-logo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .bank-logo .ashoka-chakra {
+            color: var(--navy-blue);
+            font-size: 24px;
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid var(--saffron);
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .navbar {
+            background-color: var(--navy-blue);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            border-bottom: 1px solid #E2E8F0;
+            color: white;
+        }
+        
+        .loan-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--navy-blue);
+        }
+        
+        .users-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .user-item {
+            padding: 12px 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .user-item:hover {
+            background-color: #f8f9fa;
+            border-left: 3px solid var(--saffron);
+        }
+        
+        .loan-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .loan-table thead {
+            background: var(--navy-blue);
+            color: white;
+        }
+        
+        .loan-table th {
+            font-weight: 500;
+            padding: 12px 15px;
+        }
+        
+        .loan-table td {
+            padding: 10px 15px;
+            vertical-align: middle;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        
+        .badge-approved {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-rejected {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #DC3545;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #FFC107;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .indian-flag-colors {
+            background: linear-gradient(to bottom, var(--saffron), var(--white), var(--green));
+            height: 4px;
+            border-radius: 2px;
+        }
+        
+        .page-header {
+            border-bottom: 2px solid var(--navy-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-weight: 500;
+            background-color: var(--navy-blue);
+            color: white;
+        }
+        
+        .rupee-icon:before {
+            content: "₹";
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .sidebar.active {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="bank-logo">
+                <div class="ashoka-chakra">✸</div>
+            </div>
+            <h5 class="mb-0" style="color: white;">Global Trust Bank</h5>
+            <small style="color: rgba(255, 255, 255, 0.7);">Admin Dashboard</small>
+            <div class="indian-flag-colors mt-2"></div>
+        </div>
+        <div class="sidebar-menu">
+            <a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="{{ url_for('manage_users') }}"><i class="fas fa-users"></i> Customer Management</a>
+            <a href="{{ url_for('manage_loans') }}" class="active"><i class="fas fa-rupee-sign"></i> Loan Applications</a>
+            <a href="{{ url_for('manage_verified_users') }}"><i class="fas fa-user-check"></i> KYC Verified</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg mb-4">
+            <div class="container-fluid">
+                <button class="btn btn-sm d-lg-none" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="d-flex align-items-center ms-auto">
+                    <i class="fas fa-bell me-3"></i>
+                    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-light">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container-fluid">
+            <div class="page-header">
+                <h3><i class="fas fa-rupee-sign me-2"></i> Loan Application Management</h3>
+                <p class="text-muted">Review and process customer loan applications</p>
+            </div>
+            
+            <div class="row">
+                <!-- Users List -->
+                <div class="col-md-5">
+                    <div class="loan-card">
+                        <h4 class="mb-3"><i class="fas fa-users me-2"></i> Loan Applicants</h4>
+                        <div class="users-list">
+                            {% for user in users %}
+                                <div class="user-item">
+                                    <strong>{{ user.name }}</strong>
+                                    <div class="small text-muted">{{ user.email }}</div>
+                                    {% if user.loan_applications %}
+                                        <div class="small mt-1">
+                                            <span class="rupee-icon"></span> 
+                                            {{ user.loan_applications[0].loan_amount }} loan application
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loan Applications Table -->
+                <div class="col-md-7">
+                    <div class="loan-card">
+                        <h4 class="mb-3"><i class="fas fa-file-invoice-dollar me-2"></i> Loan Applications</h4>
+                        <div class="loan-table">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Applicant</th>
+                                            <th>Income</th>
+                                            <th>Credit Score</th>
+                                            <th>Loan Amount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                            {% if user.loan_applications %}
+                                                {% for loan in user.loan_applications %}
+                                                    <tr>
+                                                        <td>{{ user.name }}</td>
+                                                        <td><span class="rupee-icon"></span>{{ loan.income }}</td>
+                                                        <td>{{ loan.credit_score }}</td>
+                                                        <td><span class="rupee-icon"></span>{{ loan.loan_amount }}</td>
+                                                        <td>
+                                                            {% if loan.prediction == 'Approved' %}
+                                                                <span class="badge-approved">{{ loan.prediction }}</span>
+                                                            {% elif loan.prediction == 'Rejected' %}
+                                                                <span class="badge-rejected">{{ loan.prediction }}</span>
+                                                            {% else %}
+                                                                <span class="badge-pending">{{ loan.prediction }}</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ url_for('approve_loan', id=loan.id) }}" 
+                                                               class="btn btn-success btn-sm action-btn">
+                                                                <i class="fas fa-check-circle"></i> Approve
+                                                            </a>
+                                                            <a href="{{ url_for('reject_loan', id=loan.id) }}" 
+                                                               class="btn btn-danger btn-sm action-btn">
+                                                                <i class="fas fa-times-circle"></i> Reject
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn back-btn">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Highlight selected user
+        document.querySelectorAll('.user-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.user-item').forEach(i => {
+                    i.style.backgroundColor = '';
+                });
+                this.style.backgroundColor = '#f1f1f1';
+            });
+        });
+    </script>
+</body>
+</html>
